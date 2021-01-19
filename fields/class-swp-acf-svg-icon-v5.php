@@ -198,8 +198,7 @@ if ( ! class_exists( 'swp_acf_field_svg_icon' ) )  {
             $field['file']['path'] = apply_filters( "acf/fields/svg_icon/file_path", '', $field );
             $field['file']['path'] = apply_filters( "acf/fields/svg_icon/file_path/name={$field['_name']}", $field['file']['path'], $field );
             $field['file']['path'] = apply_filters( "acf/fields/svg_icon/file_path/key={$field['key']}", $field['file']['path'], $field );
-
-            $field['file']['url'] = str_replace( get_theme_file_path(), get_theme_file_uri(), $field['file']['path'] );
+            $field['file']['url'] = apply_filters( "acf/fields/svg_icon/file_url", '', $field );
 
             $field['choices'] = $this->parse_svg_sprite( $field['file']['path'] );
 
@@ -317,7 +316,7 @@ if ( ! class_exists( 'swp_acf_field_svg_icon' ) )  {
                 'value' => $v
             ) );
 
-            echo '<select ' . acf_esc_attr( $atts ) . '>';
+            echo '<select ' . acf_esc_attrs( $atts ) . '>';
                 if ( ! empty( $field['choices'] ) ) {
                     foreach( $field['choices'] as $k => $v ) {
                         $pos = array_search( esc_attr( $k ), $value );
@@ -384,13 +383,13 @@ if ( ! class_exists( 'swp_acf_field_svg_icon' ) )  {
             // v4
             if ( $select2_major_version == 4 ) {
                 $select2_version = '4.0';
-                $select2_script = acf_get_dir( "assets/inc/select2/4/select2.full{$min}.js" );
-                $select2_style = acf_get_dir( "assets/inc/select2/4/select2{$min}.css" );
+                $select2_script = acf_get_url( "assets/inc/select2/4/select2.full{$min}.js" );
+                $select2_style = acf_get_url( "assets/inc/select2/4/select2{$min}.css" );
             // v3
             } else {
                 $select2_version = '3.5.2';
-                $select2_script = acf_get_dir( "assets/inc/select2/3/select2{$min}.js" );
-                $select2_style = acf_get_dir( "assets/inc/select2/3/select2.css" );
+                $select2_script = acf_get_url( "assets/inc/select2/3/select2{$min}.js" );
+                $select2_style = acf_get_url( "assets/inc/select2/3/select2.css" );
             }
 
             wp_enqueue_script( 'select2', $select2_script, array( 'jquery' ), $select2_version );
